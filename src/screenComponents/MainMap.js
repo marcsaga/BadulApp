@@ -55,12 +55,19 @@ export default class App extends Component {
         this.getSuperfromFirebase();
         this.setComponent = this.setComponent.bind(this)
         this.getUserStatus().then(console.log("getData done"));
+        this.setPremium = this.setPremium.bind(this)
 
     }
 
-    storeUserStatus = async () => {
+    setPremium(){
+        this.storeUserStatus("Premium").then(console.log("setPremium done"));
+        this.getUserStatus().then(console.log("getData done"));
+        this.setComponent("menu")
+    }
+
+    storeUserStatus = async (type) => {
         try {
-            await AsyncStorage.setItem('@user_status', 'normal user')
+            await AsyncStorage.setItem('@user_status', type)
         } catch (e) {
             // saving error
         }
@@ -71,10 +78,11 @@ export default class App extends Component {
             const value = await AsyncStorage.getItem('@user_status')
             if(value !== null) {
                 console.log(value)
+                //this.setState({user_status: value})
                 this.state.user_status = value
             }
             else{
-                this.storeUserStatus().then(console.log("stored"))
+                this.storeUserStatus("normal_user").then(this.state.user_status = "normal_user")
             }
         } catch(e) {
             // error reading value
@@ -145,7 +153,7 @@ export default class App extends Component {
 
             case 'premium':
                 return(
-                    <PremiumComponent/>
+                    <PremiumComponent setPremium={this.setPremium} goBack={this.setComponent}/>
                 )
             default:
 

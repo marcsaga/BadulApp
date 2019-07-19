@@ -13,11 +13,13 @@ export default class PremiumComponent extends Component {
     }
 
     sendData(){
-        if(this.state.text === ""){
-            this.state.error = true
+        if(this.state.text === "caracul"){
+            this.props.setPremium();
+            console.log("premium true")
         }
         else{
-            console.log("success")
+            this.state.error = true
+
         }
 
     }
@@ -37,14 +39,24 @@ export default class PremiumComponent extends Component {
                         placeholder = {"Password"}
                     />
                 </View>
-                <TouchableHighlight
-                    onPress={()=>this.sendData()}
-                    underlayColor='transparent'
-                >
-                    <View style={premiumStyles.button}>
-                        <Text style={premiumStyles.addText}>add >></Text>
-                    </View>
-                </TouchableHighlight>
+                <View>
+                    <TouchableHighlight
+                        onPress={()=>this.sendData()}
+                        underlayColor='transparent'
+                    >
+                        <View style={premiumStyles.button}>
+                            <Text style={premiumStyles.addText}>get Premium</Text>
+                        </View>
+                    </TouchableHighlight>
+                        <TouchableHighlight
+                            onPress={()=>this.props.goBack("menu")}
+                            underlayColor='transparent'
+                        >
+                            <View style={premiumStyles.button}>
+                                <Text style={premiumStyles.addText}>back</Text>
+                            </View>
+                    </TouchableHighlight>
+                </View>
             </View>
         )
     }
