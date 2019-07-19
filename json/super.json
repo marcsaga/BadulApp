@@ -1,0 +1,30 @@
+[
+  {
+    "coordinate": {
+      "latitude": 41.3818800,
+      "longitude": 2.1685700
+    },
+    "title": "Foo Place",
+    "key": 1
+  },
+  {
+    "coordinate": {
+      "latitude": 41.5487800,
+      "longitude": 2.1013700
+    },
+    "title": "Foo Place",
+    "key": 2
+
+  },
+  {
+    "coordinate": {
+      "latitude": 41.5818800,
+      "longitude": 3.1685700
+    },
+    "title": "Foo Place",
+    "key": 3
+
+  }
+
+]
+
