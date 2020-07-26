@@ -1,50 +1,96 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+'use strict';
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import ReactNative from 'react-native';
+
+const {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  Animated
+} = ReactNative;
 
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+var isHidden = true;
 
-type Props = {};
-export default class A1p extends Component<Props> {
+class AppContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bounceValue: new Animated.Value(100),  //This is the initial position of the subview
+      buttonText: "Show Subview"
+    };
+  }
+
+
+  _toggleSubview() {
+    this.setState({
+      buttonText: !isHidden ? "Show Subview" : "Hide Subview"
+    });
+
+    var toValue = 100;
+
+    if(isHidden) {
+      toValue = 0;
+    }
+
+    //This will animate the transalteY of the subview between 0 & 100 depending on its current state
+    //100 comes from the style below, which is the height of the subview.
+    Animated.spring(
+        this.state.bounceValue,
+        {
+          toValue: toValue,
+          velocity: 3,
+          tension: 2,
+          friction: 8,
+        }
+    ).start();
+
+    isHidden = !isHidden;
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
+        <View style={styles.container}>
+          <TouchableHighlight style={styles.button} onPress={()=> {this._toggleSubview()}}>
+            <Text style={styles.buttonText}>{this.state.buttonText}</Text>
+          </TouchableHighlight>
+          <Animated.View
+              style={[styles.subView,
+                {transform: [{translateY: this.state.bounceValue}]}]}
+          >
+            <Text>This is a sub view</Text>
+          </Animated.View>
+        </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    marginTop: 66
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  button: {
+    padding: 8,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  buttonText: {
+    fontSize: 17,
+    color: "#007AFF"
   },
+  subView: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#FFFFFF",
+    height: 100,
+  }
 });
+
+AppRegistry.registerComponent('AppContainer', () => AppContainer);

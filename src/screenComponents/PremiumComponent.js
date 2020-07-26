@@ -13,8 +13,16 @@ export default class PremiumComponent extends Component {
     }
 
     sendData(){
-        if(this.state.text === "caracul"){
-            this.props.setPremium();
+        if(this.state.text === "prem"){
+            this.props.setPremium("premium");
+            console.log("premium true")
+        }
+        else if(this.state.text === "admin"){
+            this.props.setPremium("admin");
+            console.log("premium true")
+        }
+        else if(this.state.text === "normal"){
+            this.props.setPremium("normal");
             console.log("premium true")
         }
         else{
@@ -39,7 +47,7 @@ export default class PremiumComponent extends Component {
                         placeholder = {"Password"}
                     />
                 </View>
-                <View>
+                <View style={{flexDirection:"row", justifyContent:'space-between'}}>
                     <TouchableHighlight
                         onPress={()=>this.sendData()}
                         underlayColor='transparent'

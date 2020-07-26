@@ -4,8 +4,9 @@
 import React, { Component } from 'react';
 import {AppRegistry, PermissionsAndroid, View} from 'react-native';
 import './src/utils/fixtimerbug';
-import {name as appName} from './app.json';
 import MainMap from "./src/screenComponents/MainMap";
+import LoadingPage from "./src/screenComponents/LoadingPage";
+import getSuperfromFirebase from "./src/utils/dataManager";
 
 const requestLocationPermission = async() => {
     try {
@@ -25,23 +26,37 @@ const requestLocationPermission = async() => {
     } catch (err) {
         console.warn(err)
     }
-}
+};
 
 export default class App extends Component {
-
-
     constructor(props) {
         super(props)
+        this.state= {
+            isLoaded: false,
+            markers: {}
+        }
     }
+    async componentDidMount() {
+        if(!this.state.isLoaded){
+            requestLocationPermission().then(null)
+            let markers = await getSuperfromFirebase().then(console.log("markers loaded"));
+            this.setState({markers: markers, isLoaded: true})
+        }
 
-    render() {
-        requestLocationPermission().then(console.log("hey"))
-        return (
+    }
+    displayView(){
+        console.log("loading main map")
+        return(
             <View flex={1}>
-                <MainMap/>
+                {this.state.isLoaded ? null : <LoadingPage/>}
+                <MainMap markers={this.state.markers}/>
             </View>
         )
-
+    }
+    render() {
+        return (
+            this.displayView()
+        )
     }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, Text} from "react-native";
+import {StyleSheet, View, Text, TouchableHighlight, Button} from "react-native";
 import PropTypes from "prop-types";
 import AddSuperComponent from "./AddSuperComponent";
 
@@ -10,15 +10,15 @@ export default class SuperInfoComponent extends Component {
     }
 
     render(){
-        console.log("super id: "+this.props.info.name)
+        if (this.props.info) {
+            console.log(this.props.info.name);
+        }
         return(
-            <View style={superInfoStyles.container}>
-                <View style={superInfoStyles.nameContainer}>
-                    <Text>{this.props.info.name}</Text>
-                    {this.props.info.isFullDay &&
-                    <Text>24 h</Text>
-                    }
-                </View>
+            <View style={superInfoStyles.containerSup}>
+
+                <Text>{this.props.info ? this.props.info.name : "No name" }</Text>
+
+
             </View>
         )
     }
@@ -26,18 +26,26 @@ export default class SuperInfoComponent extends Component {
 
 AddSuperComponent.propTypes = {
     info: PropTypes.object.isRequired,
-
+    approve: PropTypes.object.isRequired,
 };
 
 const superInfoStyles = StyleSheet.create({
-    container: {
-        height: 150,
-        backgroundColor: '#c61226',
-        //alignItems:'center',
-        width: '100%',
-        borderTopRightRadius: 12,
-        borderTopLeftRadius: 12,
-        flexDirection:'column'
+
+
+    containerSup: {
+        flex: 1,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+
+    approveView:{
+        height: 40,
+        borderBottomWidth: 1,
+        alignItems:'center',
+        justifyContent:'center',
+        borderTopWidth:1
     },
 
     nameContainer:{
@@ -45,6 +53,6 @@ const superInfoStyles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         height:50,
-        borderWidth:1
+
     },
 })
